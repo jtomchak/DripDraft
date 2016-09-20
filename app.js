@@ -16,7 +16,7 @@ var app = express();
 
 //db setup
 var mongourl = process.env.MONGODB_URI || 'mongodb://127.0.0.1'
-mongoose.connect(process.env.MONGODB_URI); // connect to database
+mongoose.connect(mongourl); // connect to database
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
