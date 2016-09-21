@@ -1,10 +1,10 @@
-var express = require('express');
 var User = require('../models/user'); // get our mongoose model
-var router = express.Router();
+var userRouter = require('express').Router();
 
+var users = [];
 /* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
+userRouter.get('/', function(req, res, next) {
+  res.json(users);
 });
 
-module.exports = router;
+module.exports = userRouter;
