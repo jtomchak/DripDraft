@@ -5,17 +5,17 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose    = require('mongoose');
+var config = require('./config/config')
 
 var jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
-var config = require('./config'); // get our config file
 
-var userRouter = require('./routes/users');
+var api = require('./api/api');
+
 
 var app = express();
 
 //db setup
-var mongourl = process.env.MONGODB_URI || 'mongodb://127.0.0.1'
-mongoose.connect(mongourl); // connect to database
+mongoose.connect(config.db.url); // connect to database
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -31,7 +31,8 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/users', userRouter);
+// setup the api
+app.use('/api/', api)
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

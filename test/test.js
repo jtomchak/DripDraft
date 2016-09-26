@@ -10,7 +10,7 @@ describe('[USERS]', function(){
 
   it('should get all users', function(done) {
     request(app)
-      .get('/users')
+      .get('/api/users')
       .set('Accept', 'application/json')
       .expect('Content-Type', /json/)
       .expect(200)

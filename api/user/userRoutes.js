@@ -1,4 +1,4 @@
-var User = require('../models/user'); // get our mongoose model
+var User = require('./userModel'); // get our mongoose model
 var userRouter = require('express').Router();
 
 var users = [];

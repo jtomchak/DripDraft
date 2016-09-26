@@ -7,14 +7,16 @@
 var app = require('../app');
 var debug = require('debug')('CarrotDraft:server');
 var http = require('http');
+var config = require('../config/config');
+var logger = require('../util/logger');
 
 /**
  * Get port from environment and store in Express.
  */
 
-var port = normalizePort(process.env.PORT || '3000');
+var port = normalizePort(config.port);
 app.set('port', port);
-
+logger.log('listening on http://localhost:' + config.port)
 /**
  * Create HTTP server.
  */
