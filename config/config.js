@@ -4,7 +4,12 @@ var config = {
   dev: 'development',
   test: 'testing',
   prod: 'production',
-  port: process.env.PORT || 3000
+  port: process.env.PORT || 3000,
+    // 365 days in minutes
+  expireTime: 24 * 60 * 365,
+  secrets: {
+    jwt: process.env.JWT || 'bannaPants'
+  }
 };
 
 process.env.NODE_ENV = process.env.NODE_ENV || config.dev;
