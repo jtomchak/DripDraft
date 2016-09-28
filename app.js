@@ -10,6 +10,7 @@ var config = require('./config/config')
 var jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
 
 var api = require('./api/api');
+var auth = require('./auth/routes');
 
 
 var app = express();
@@ -32,7 +33,8 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // setup the api
-app.use('/api/', api)
+app.use('/api', api);
+app.use('/auth', auth);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
