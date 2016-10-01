@@ -39,6 +39,12 @@ UserSchema.methods = {
       var salt = bcrypt.genSaltSync(10);
       return bcrypt.hashSync(plainTextPword, salt);
     }
+  },
+  //return user object minus the password
+  toJson: function() {
+    var obj = this.toObject()
+    delete obj.password;
+    return obj;
   }
 };
 

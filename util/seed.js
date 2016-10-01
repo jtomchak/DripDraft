@@ -1,5 +1,5 @@
 var User = require('../api/user/userModel');
-var Post = require('../api/draft/draftModel');
+var Draft = require('../api/draft/draftModel');
 var Category = require('../api/category/categoryModel');
 var _ = require('lodash');
 var logger = require('./logger');
@@ -18,7 +18,7 @@ var categories = [
   {name: 'UI/UX'}
 ];
 
-var posts = [
+var drafts = [
   {title: 'Learn angular 2 today', text: 'Angular to is so dope'},
   {title: '10 reasons you should love IE7', text: 'IE7 is so amazing'},
   {title: 'Why we switched to Go', text: 'go is dope'}
@@ -34,7 +34,7 @@ var createDoc = function(model, doc) {
 
 var cleanDB = function() {
   logger.log('... cleaning the DB');
-  var cleanPromises = [User, Category, Post]
+  var cleanPromises = [User, Category, Draft]
     .map(function(model) {
       return model.remove().exec();
     });
@@ -64,36 +64,41 @@ var createCategories = function(data) {
     });
 };
 
-var createPosts = function(data) {
-  var addCategory = function(post, category) {
-    post.categories.push(category);
+var createDrafts = function(data) {
+  var addCategory = function(draft, category) {
+    draft.categories.push(category);
 
     return new Promise(function(resolve, reject) {
-      post.save(function(err, saved) {
+      draft.save(function(err, saved) {
         return err ? reject(err) : resolve(saved)
       });
     });
   };
 
-  var newPosts = posts.map(function(post, i) {
-    post.author = data.users[i]._id;
-    return createDoc(Post, post);
+  // var newPosts = posts.map(function(post, i) {
+  //   post.author = data.users[i]._id;
+  //   return createDoc(Post, post);
+  // });
+
+  var newDrafts = drafts.map(function(draft, i) {
+    draft.author = data.users[i]._id;
+    return createDoc(Draft, draft);
   });
 
-  return Promise.all(newPosts)
-    .then(function(savedPosts) {
-      return Promise.all(savedPosts.map(function(post, i){
+  return Promise.all(newDrafts)
+    .then(function(savedDrafts) {
+      return Promise.all(savedDrafts.map(function(post, i){
         return addCategory(post, data.categories[i])
       }));
     })
     .then(function() {
-      return 'Seeded DB with 3 Posts, 3 Users, 3 Categories';
+      return 'Seeded DB with 3 Drafts, 3 Users, 3 Categories';
     });
 };
 
 cleanDB()
   .then(createUsers)
   .then(createCategories)
-  .then(createPosts)
+  .then(createDrafts)
   .then(logger.log.bind(logger))
   .catch(logger.log.bind(logger));

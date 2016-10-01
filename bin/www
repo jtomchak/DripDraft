@@ -14,6 +14,11 @@ var logger = require('../util/logger');
  * Get port from environment and store in Express.
  */
 
+//seed db 
+if (config.seed) {
+  require('../util/seed');
+}
+
 var port = normalizePort(config.port);
 app.set('port', port);
 logger.log('listening on http://localhost:' + config.port)
