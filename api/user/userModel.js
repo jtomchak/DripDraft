@@ -13,8 +13,12 @@ var UserSchema = new Schema({
   password: {
     type: String,
     required: true
-  }
-});
+  },
+},
+
+  //Add additional timestamps
+  {timestamps: true}
+);
 
 // middleware that will run before a document
 // is create

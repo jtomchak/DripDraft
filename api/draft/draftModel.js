@@ -17,6 +17,10 @@ var DraftSchema = new Schema({
 
   //Each draft can have many categories
   categories: [{type: Schema.Types.ObjectId, ref: 'category'}]
-});
+},
+
+ //Add additional timestamps
+  {timestamps: true}
+);
 
 module.exports = mongoose.model('draft', DraftSchema) 

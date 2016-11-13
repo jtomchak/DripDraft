@@ -17,9 +17,13 @@ exports.params = function(req, res, next, id) {
     });
 };
 
+//Getting Drafts by current logged in User Only. 
 exports.get = function(req, res, next) {
-  Draft.find({})
-    .populate('author categories')
+  console.log(req.user._id);
+  Draft.find({author: req.user._id})
+    .populate({
+      path: 'categories',
+    })
     .exec()
     .then(function(drafts){
       res.json(drafts);
@@ -51,6 +55,8 @@ exports.put = function(req, res, next) {
 
 exports.post = function(req, res, next) {
   var newDraft = req.body;
+  //Add author by autherized user token
+  newDraft.author = req.user._id;
 
   Draft.create(newDraft)
     .then(function(draft) {
