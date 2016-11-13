@@ -3,10 +3,23 @@ var Schema = mongoose.Schema;
 var bcrypt = require('bcrypt')
 
 var UserSchema = new Schema({
-  username: {
+  name: {
     type: String,
-    unique: true,
     required: true
+  },
+
+  email: {
+    type: String,
+    lowercase: true,
+    required: true,
+    unique: true,
+  },
+
+  //Everyone is a default user for now
+  role: {
+    type: String,
+    enum: ['user',  'admin'],
+    default: 'user'
   },
 
   // dont store the password as plain text
