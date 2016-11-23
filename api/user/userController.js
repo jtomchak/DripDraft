@@ -67,5 +67,6 @@ exports.delete = function(req, res, next) {
 };
 
   exports.me = function(req, res, next) {
+    console.log(req)
     res.json(req.user.toJson());
   };

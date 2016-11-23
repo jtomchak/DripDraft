@@ -5,7 +5,9 @@ var auth = require('../../auth/auth');
 var checkUser = [auth.decodeToken(), auth.getFreshUser()];
 
 userRouter.param('id', controller.params);
-userRouter.route('/me', checkUser, controller.me);
+
+userRouter.route('/me') 
+  .get(checkUser, controller.me);
 
 userRouter.route('/')
   .get(checkUser, controller.get)
