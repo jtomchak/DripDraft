@@ -20,7 +20,25 @@ describe('DRAFT', function () {
             })
     });
 
-    it('should be able to POST new draft', function(done) {
+    it('should be able to POST new draft of less than 140 characters', function(done) {
+        request(app)
+            .post('/api/drafts')
+            .set('Accept', 'application/json')
+            .set('Content-Type', 'application/x-www-form-urlencoded')
+            .set('Authorization', 'Bearer ' + global.token)
+            .type('form')
+            .send({
+               title:'Bananna Pants!!',
+               text: random140Words 
+            })
+            .expect(200)
+            .end(function (err, res) {
+                should.not.exist(err);
+                done();
+            })
+    });
+
+    it('should NOT be able to POST new draft of more than 140 characters', function(done) {
         request(app)
             .post('/api/drafts')
             .set('Accept', 'application/json')
@@ -31,9 +49,12 @@ describe('DRAFT', function () {
                title:'Bananna Pants!!',
                text: random141Words 
             })
-            .expect(200)
+            .expect(403)
             .end(function (err, res) {
                 should.not.exist(err);
+                const payload = res.body;
+                (payload).should.be.a('object'); 
+                (payload.message).should.equal('Draft is over the word limit of 140')
                 done();
             })
     });

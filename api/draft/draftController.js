@@ -57,12 +57,11 @@ exports.post = function(req, res, next) {
   //Add author by autherized user token
   //Verify 140 word limit
   newDraft.author = req.user._id;
-  if (countWords(req.body.text) > 140) {
+  if (countWords(newDraft.text) > 140) {
     res.status(403).json({
         message: 'Draft is over the word limit of 140'
     });
   }
-
   Draft.create(newDraft)
     .then(function(draft) {
       res.json(draft);
