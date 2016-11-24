@@ -19,7 +19,6 @@ exports.params = function(req, res, next, id) {
 
 //Getting Drafts by current logged in User Only. 
 exports.get = function(req, res, next) {
-  console.log(req.user._id);
   Draft.find({author: req.user._id})
     .populate({
       path: 'categories',
@@ -56,7 +55,13 @@ exports.put = function(req, res, next) {
 exports.post = function(req, res, next) {
   var newDraft = req.body;
   //Add author by autherized user token
+  //Verify 140 word limit
   newDraft.author = req.user._id;
+  if (countWords(req.body.text) > 140) {
+    res.status(403).json({
+        message: 'Draft is over the word limit of 140'
+    });
+  }
 
   Draft.create(newDraft)
     .then(function(draft) {
@@ -75,3 +80,11 @@ exports.delete = function(req, res, next) {
     }
   });
 };
+
+//Return word count for draft posts
+function countWords(s){
+    s = s.replace(/(^\s*)|(\s*$)/gi,"");//exclude  start and end white-space
+    s = s.replace(/[ ]{2,}/gi," ");//2 or more space to 1
+    s = s.replace(/\n /,"\n"); // exclude newline with a start spacing
+    return s.split(' ').length; 
+}
