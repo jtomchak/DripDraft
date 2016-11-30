@@ -9,3 +9,15 @@ var user = req.user.toJson();
 user.accessToken = signToken(req.user._id);
 res.json(user);
 }
+
+exports.signup = function(req, res, next) {
+  //TODO: validation needed? 
+  var newUser = req.body;
+
+  User.create(newUser)
+    .then(function(user) {
+      res.json(user);
+    }, function(err) {
+      next(err);
+    });
+}

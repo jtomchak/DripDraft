@@ -6,5 +6,6 @@ var getFreshUser = require('./auth').getFreshUser;
 // the password and email match what is in the DB
 // this will be in by adding in the middleware
 router.post('/signin',verifyUser(), getFreshUser(), controller.signin);
+router.post('/signup', controller.signup);
 
 module.exports = router;

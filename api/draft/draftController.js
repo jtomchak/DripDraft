@@ -20,9 +20,9 @@ exports.params = function(req, res, next, id) {
 //Getting Drafts by current logged in User Only. 
 exports.get = function(req, res, next) {
   Draft.find({author: req.user._id})
-    .populate({
-      path: 'categories',
-    })
+    .populate(
+      'categories'
+    )
     .exec()
     .then(function(drafts){
       res.json(drafts);

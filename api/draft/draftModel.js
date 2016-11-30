@@ -15,6 +15,13 @@ var DraftSchema = new Schema({
   //Each draft belongs to 1 user. 
   author: {type: Schema.Types.ObjectId, ref: 'user'},
 
+  //Each draft belongs to 1 topic
+  topic: {
+    type: Schema.Types.ObjectId, 
+    ref: 'topic',
+    required: true
+  },
+
   //Each draft can have many categories
   categories: [{type: Schema.Types.ObjectId, ref: 'category'}]
 },
