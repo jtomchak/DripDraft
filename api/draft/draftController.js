@@ -21,7 +21,10 @@ exports.params = function(req, res, next, id) {
 exports.get = function(req, res, next) {
   Draft.find({author: req.user._id})
     .populate(
-      'categories'
+      'categories', '_id name'
+    )
+    .populate(
+      'topic', '_id name'
     )
     .exec()
     .then(function(drafts){

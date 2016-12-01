@@ -1,6 +1,7 @@
 var User = require('../api/user/userModel');
 var Draft = require('../api/draft/draftModel');
 var Category = require('../api/category/categoryModel');
+var Topic = require('../api/topic/topicModel');
 var _ = require('lodash');
 var logger = require('./logger');
 
@@ -10,6 +11,12 @@ var users = [
   {email: 'jimmylo@testing.com', name: "Jimmy", password: 'test'},
   {email: 'xoko@testing.com', name: "Xoko", password: 'test'},
   {email: 'katamon@testing.com', name: "Kate", password: 'test'}
+];
+
+var topics = [
+  {name: 'default'},
+  {name: 'Tech'},
+  {name: 'Journel'}
 ];
 
 var categories = [
@@ -34,7 +41,7 @@ var createDoc = function(model, doc) {
 
 var cleanDB = function() {
   logger.log('... cleaning the DB');
-  var cleanPromises = [User, Category, Draft]
+  var cleanPromises = [User, Category, Draft, Topic]
     .map(function(model) {
       return model.remove().exec();
     });
@@ -64,10 +71,21 @@ var createCategories = function(data) {
     });
 };
 
-var createDrafts = function(data) {
-  var addCategory = function(draft, category) {
-    draft.categories.push(category);
+var createTopics = function(data) {
+  var promises = topics.map(function(topic, i) {
+    topic.user = data.users[i]._id;
+    return createDoc(Topic, topic);
+  });
 
+  return Promise.all(promises)
+    .then(function(topics) {
+      return _.merge({topics: topics}, data || {});
+    });
+};
+
+var createDrafts = function(data) {
+  var addCategory = function(draft, category, topic) {
+    draft.categories.push(category);
     return new Promise(function(resolve, reject) {
       draft.save(function(err, saved) {
         return err ? reject(err) : resolve(saved)
@@ -82,6 +100,7 @@ var createDrafts = function(data) {
 
   var newDrafts = drafts.map(function(draft, i) {
     draft.author = data.users[i]._id;
+    draft.topic = data.topics[i]._id;
     return createDoc(Draft, draft);
   });
 
@@ -92,13 +111,14 @@ var createDrafts = function(data) {
       }));
     })
     .then(function() {
-      return 'Seeded DB with 3 Drafts, 3 Users, 3 Categories';
+      return 'Seeded DB with 3 Drafts, 3 Users, 3 Categories, with Topics!';
     });
 };
 
 cleanDB()
   .then(createUsers)
   .then(createCategories)
+  .then(createTopics)
   .then(createDrafts)
   .then(logger.log.bind(logger))
   .catch(logger.log.bind(logger));
