@@ -75,3 +75,30 @@ exports.delete = function (req, res, next) {
   });
 };
 
+exports.verifyTopic = function() {
+  return function(req, res, next) {
+    //Here we always lowercase the email.
+    var topicId = req.query.topic_id;
+
+    // if no email or password then stop.
+    if(!topicId){
+        res.status(400).send('You need to include a topic id');
+        return;
+    }
+   // look topic up in the DB so we can check
+    Topic.findById(topicId)
+        .then(function (topic) {
+            if (!topic) {
+                res.status(401).send('No topic with that id exists');
+            } else {
+                    // if everything is good,
+                    // then attach to req.topic
+                    // and call next so the controller
+                    req.topic = topic;
+                    next();
+            }
+        }, function (err) {
+            next(err);
+        });
+  };
+};

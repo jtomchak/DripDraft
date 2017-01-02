@@ -6,7 +6,7 @@ var config = {
   prod: 'production',
   port: process.env.PORT || 3000,
     // 365 days in minutes
-  expireTime: 24 * 60 * 365,
+  expireTime: 24 * 60 * 60 * 365,
   secrets: {
     jwt: process.env.JWT || 'bannaPants'
   }
