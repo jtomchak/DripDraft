@@ -16,6 +16,9 @@ exports.signup = function(req, res, next) {
 
   User.create(newUser)
     .then(function(user) {
+      console.log(user);
+      var user = user.toJson();
+      user.accessToken = signToken(user._id);
       res.json(user);
     }, function(err) {
       next(err);

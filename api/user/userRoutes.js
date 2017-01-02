@@ -11,7 +11,7 @@ userRouter.route('/me')
 
 userRouter.route('/')
   .get(checkUser, controller.get)
-  .post(controller.post)
+  // .post(controller.post)
 
 userRouter.route('/:id')
   .get(controller.getOne)
