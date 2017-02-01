@@ -1,3 +1,3 @@
 # DripDraft
 * yeah.....submodules
- * git clone --recursive <URL>
+ * git clone --recursive --URL--
