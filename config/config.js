@@ -4,7 +4,7 @@ var config = {
   dev: 'development',
   test: 'testing',
   prod: 'production',
-  port: process.env.PORT || 3000,
+  port: process.env.PORT || 3001,
     // 365 days in minutes
   expireTime: 24 * 60 * 60 * 365,
   secrets: {

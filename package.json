@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "start": "node ./bin/www",
+    "start": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "nodemon ./bin/www",
+    "client": "cd client && yarnpkg start",
     "test": "mocha ./test"
   },
   "dependencies": {
@@ -25,6 +27,7 @@
   "devDependencies": {
     "babel-preset-es2015": "^6.14.0",
     "chai": "^3.5.0",
+    "concurrently": "^3.1.0",
     "supertest": "^2.0.0"
   }
 }

@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var mongoose    = require('mongoose');
 var config = require('./config/config')
+var staticAssets = path.join(__dirname, 'client/build');
 
 var jwt    = require('jsonwebtoken'); // used to create, sign, and verify tokens
 
@@ -30,11 +31,16 @@ app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
+// Express only serves static assets in production
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(staticAssets));
+}
+
 
 // setup the api
 app.use('/api', api);
 app.use('/auth', auth);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
