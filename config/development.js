@@ -3,6 +3,6 @@ module.exports = {
   logging: true,
   seed: false,
   db: {
-    url: 'mongodb://localhost/carrotdraft'
+    url: 'mongodb://mongo/dripdraft'
   }
 };

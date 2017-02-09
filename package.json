@@ -6,7 +6,7 @@
     "start": "node ./bin/www",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "server": "nodemon ./bin/www",
-    "client": "cd client && yarnpkg start",
+    "client": "cd client && npm start",
     "test": "mocha ./test"
   },
   "dependencies": {

@@ -2,3 +2,7 @@
 node_modules
 jspm_packages
 .env
+.Docker/mongodb/db/*
+
+# exception to the rule
+!Docker/mongodb/db/.gitkeep 
