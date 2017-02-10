@@ -35,6 +35,7 @@ app.use(cookieParser());
 // setup the api
 app.use('/api', api);
 app.use('/auth', auth);
+
 // set up directory for hosting static files
 app.use(express.static(path.join(__dirname, 'client', 'build')));
 // Always return the main index.html, so react-router render the route in the client

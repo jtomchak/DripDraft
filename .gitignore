@@ -6,3 +6,5 @@ jspm_packages
 
 # exception to the rule
 !Docker/mongodb/db/.gitkeep 
+log
+pids

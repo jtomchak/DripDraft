@@ -1,0 +1,26 @@
+version: "2"
+services:
+  web:
+    container_name: web_api
+    build: .
+    environment:
+      NODE_ENV: production
+    command: pm2-docker processes.json
+    ports:
+      - "3001:3001"
+    depends_on:
+      - mongo
+    links:
+      - mongo
+
+  mongo:
+    container_name: mongo_web
+    image: mongo
+    volumes:
+      - ./.Docker/mongodb/db:/data/db
+    ports:
+      - "27017:27017"
+
+volumes:
+    mongo_web:
+

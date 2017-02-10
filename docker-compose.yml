@@ -3,26 +3,8 @@ services:
   web:
     container_name: web_api
     build: .
-    volumes: 
-      - ./:/opt/app/
-    environment:
-      NODE_ENV: development
-    ports:
-      - "3001:3001"
-      - "3000:3000"
-    depends_on:
-      - mongo
-    links:
-      - mongo
 
   mongo:
     container_name: mongo_web
     image: mongo
-    volumes:
-      - ./.Docker/mongodb/db:/data/db
-    ports:
-      - "27017:27017"
-
-volumes:
-    mongo_web:
 
