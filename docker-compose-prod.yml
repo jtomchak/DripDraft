@@ -21,15 +21,15 @@ services:
     ports:
       - "27017:27017"
 
-    nginx:
-      image: nginx
-      ports:
-          - "80:80"
-      volumes:
-          - ./dripdraft.conf:/etc/nginx/conf.d/default
-      command: /bin/bash -c "echo -e 'upstream backend { server web:3000; }\nserver { listen 80; location / { proxy_pass http://backend; }}' > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
-      links:
-          - web
+  nginx:
+    image: nginx
+    ports:
+        - "80:80"
+    volumes:
+        - ./dripdraft.conf:/etc/nginx/conf.d/default
+    command: /bin/bash -c "echo -e 'upstream backend { server web:3001; }\nserver { listen 80; location / { proxy_pass http://backend; }}' > /etc/nginx/conf.d/default.conf && nginx -g 'daemon off;'"
+    links:
+        - web
 
 volumes:
     mongo_web:
