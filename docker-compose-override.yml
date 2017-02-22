@@ -7,10 +7,9 @@ services:
       - ./:/opt/app/
     environment:
       NODE_ENV: development
-    command: npm run dev
+    command: npm run server
     ports:
       - "3001:3001"
-      - "3000:3000"
     depends_on:
       - mongo
     links:
