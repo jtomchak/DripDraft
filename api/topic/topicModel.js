@@ -38,6 +38,7 @@ var TopicSchema = new Schema({
 TopicSchema.pre('validate', function (next) {
   this.streak = updateDraftStreakForTopic(this.lastDraftAt) ? this.streak + 1 : 1;
   this.totalDraftCount = this.drafts.length;
+  this.lastDraftAt = new Date();
   next();
 });
 
@@ -65,8 +66,8 @@ function updateDraftStreakForTopic(lastDraftDate){
   var streakDeadlineDate = new Date(lastDraftDate);
   streakDeadlineDate.setDate(streakDeadlineDate.getDate() + 1)
   streakDeadlineDate.setHours(23, 59, 59); //set deadline to 11:59pm
-//Draft needs to be after the day has passed, but before the end of the following day.
-  return (lastDraftDate < streakDeadlineDate && lastDraftDate.getDate() > currentDate.getDate());
+//Draft needs to be after the current day has passed, but before the end of the following day.
+  return (currentDate < streakDeadlineDate && lastDraftDate.getDate() > currentDate.getDate());
 }
 
 module.exports = mongoose.model('topic', TopicSchema);

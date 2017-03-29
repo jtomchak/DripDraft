@@ -12,5 +12,10 @@
 		"jspm_packages",
 		"tmp",
 		"temp"
-	]
+	],
+	"typeAcquisition": {
+        "include": [
+            "lodash"
+        ]
+    }
 }
