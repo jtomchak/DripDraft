@@ -7,7 +7,8 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "server": "pm2-dev start ./bin/www",
     "client": "cd client && npm start",
-    "test": "mocha ./test"
+    "test": "mocha ./test",
+    "postinstall": "cd client && npm run build"
   },
   "dependencies": {
     "bcrypt": "^0.8.3",
